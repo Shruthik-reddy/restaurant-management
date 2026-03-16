@@ -23,7 +23,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://restaurant-management-evgt.onrender.com"
+      "destination": "https://restaurant-management-evgt.onrender.com/$1"
     }
   ]
 }
