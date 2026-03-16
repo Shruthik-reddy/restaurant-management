@@ -5,8 +5,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn clean package -DskipTests
 
-# Use official OpenJDK runtime
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
