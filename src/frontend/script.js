@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://restaurant-management-evgt.onrender.com";
 
 // Global variables
 let salesChart = null;
