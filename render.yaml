@@ -13,6 +13,8 @@ services:
         sync: false
       - key: SPRING_DATASOURCE_PASSWORD
         sync: false
+      - key: FRONTEND_URL
+        sync: false
     healthCheck:
       path: /actuator/health
       initialDelaySeconds: 60
@@ -23,8 +25,6 @@ services:
   - type: pserv
     name: restaurant-db
     plan: free
-    env: docker
-    dockerfilePath: ./database.Dockerfile
     databaseName: restaurant_db
     user: restaurant_user
     region: oregon

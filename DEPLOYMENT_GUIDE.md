@@ -13,29 +13,39 @@
 1. Go to [render.com](https://render.com)
 2. Sign up with GitHub
 
-### 2. Create Web Service
+### 2. Create PostgreSQL Database
+1. Click **"New +"** → **"PostgreSQL"**
+2. **Name**: `restaurant-db`
+3. **Database Name**: `restaurant_db`
+4. **User**: `restaurant_user`
+5. **Region**: Oregon (US West)
+6. **Plan**: `Free`
+7. Click **"Create Database"**
+
+### 3. Initialize Database
+1. After database is created, click on it
+2. Go to **"Query"** tab
+3. Copy-paste the contents of `init.sql` file
+4. Click **"Run"** to create tables and sample data
+
+### 4. Create Web Service
 1. Click **"New +"** → **"Web Service"**
 2. Connect your GitHub repository
 3. Configure:
    - **Name**: `restaurant-management-backend`
    - **Environment**: `Docker`
-   - **Region**: Closest to you
+   - **Region**: Oregon (US West)
    - **Branch**: `main`
    - **Plan**: `Free`
 
-### 3. Set Environment Variables
+### 5. Set Environment Variables
+Get the database connection details from your PostgreSQL database page and set:
 ```env
-SPRING_DATASOURCE_URL=jdbc:mysql://your-db-host:3306/restaurant_db
-SPRING_DATASOURCE_USERNAME=your_username
-SPRING_DATASOURCE_PASSWORD=your_password
+SPRING_DATASOURCE_URL=jdbc:postgresql://host:5432/restaurant_db
+SPRING_DATASOURCE_USERNAME=restaurant_user
+SPRING_DATASOURCE_PASSWORD=your_db_password
 FRONTEND_URL=https://your-vercel-app.vercel.app
 ```
-
-### 4. Create Database
-1. Click **"New +"** → **"PostgreSQL"**
-2. **Name**: `restaurant-db`
-3. **Plan**: `Free`
-4. Copy the connection URL to environment variables
 
 ---
 
@@ -78,6 +88,11 @@ const BASE_URL = "https://your-app-name.onrender.com";
 - Sets up health checks
 - Handles environment variables
 
+### Database Initialization (`init.sql`)
+- Creates all necessary tables
+- Inserts sample data
+- Sets up indexes for performance
+
 ---
 
 ## 🎉 Deployment URLs
@@ -116,8 +131,8 @@ spring.web.cors.allowed-origins=https://your-vercel-app.vercel.app
 #### 2. Database Connection
 Ensure database is running and credentials are correct:
 ```bash
-# Test connection
-mysql -h your-db-host -u username -p restaurant_db
+# Test connection with PostgreSQL client
+psql -h your-db-host -U restaurant_user -d restaurant_db
 ```
 
 #### 3. Build Failures
