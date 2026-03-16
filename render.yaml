@@ -1,0 +1,30 @@
+services:
+  # Spring Boot Backend Service
+  - type: web
+    name: restaurant-management-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+    healthCheck:
+      path: /actuator/health
+      initialDelaySeconds: 60
+      periodSeconds: 30
+    autoDeploy: true
+
+  # PostgreSQL Database (Render provides free PostgreSQL)
+  - type: pserv
+    name: restaurant-db
+    plan: free
+    env: docker
+    dockerfilePath: ./database.Dockerfile
+    databaseName: restaurant_db
+    user: restaurant_user
+    region: oregon

@@ -1,0 +1,11 @@
+{
+  "name": "restaurant-management-frontend",
+  "version": "1.0.0",
+  "description": "Restaurant Management System Frontend",
+  "scripts": {
+    "build": "echo 'Build complete'",
+    "start": "python -m http.server 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

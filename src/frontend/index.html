@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <link rel="stylesheet" href="style-clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurant Admin</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" onclick="showSection('dashboardSection')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" onclick="showSection('categorySection')">
+                        <i class="fas fa-tags"></i>
+                        <span>Categories</span>
+                    </li>
+                    <li class="nav-item" onclick="showSection('menuSection')">
+                        <i class="fas fa-hamburger"></i>
+                        <span>Menu Items</span>
+                    </li>
+                    <li class="nav-item" onclick="showSection('customerSection')">
+                        <i class="fas fa-users"></i>
+                        <span>Customers</span>
+                    </li>
+                    <li class="nav-item" onclick="showSection('orderSection')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Orders</span>
+                    </li>
+                    <li class="nav-item" onclick="showSection('billingSection')">
+                        <i class="fas fa-receipt"></i>
+                        <span>Billing</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>Restaurant Management System</h1>
+                    <p>Manage your restaurant with ease</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="refreshAllData()">
+                        <i class="fas fa-sync-alt"></i> Refresh All
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Sales Dashboard</h2>
+                    <button class="btn btn-secondary" onclick="loadDashboard()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon revenue">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Today's Revenue</h3>
+                            <p class="stat-value" id="todayRevenue">₹ 0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon revenue">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Revenue</h3>
+                            <p class="stat-value" id="totalRevenue">₹ 0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon orders">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Orders</h3>
+                            <p class="stat-value" id="ordersCount">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon top-item">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Top Selling Item</h3>
+                            <p class="stat-value" id="topItem">No data</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Weekly Sales Overview</h3>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Category Management Section -->
+            <section id="categorySection" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tags"></i> Category Management</h2>
+                    <button class="btn btn-secondary" onclick="loadCategories()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Add New Category</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="categoryName">Category Name</label>
+                            <input type="text" id="categoryName" placeholder="Enter category name">
+                            <button class="btn btn-primary" onclick="addCategory()">
+                                <i class="fas fa-plus"></i> Add Category
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Existing Categories</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="categoriesList" class="categories-grid">
+                            <!-- Categories will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Menu Management Section -->
+            <section id="menuSection" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-hamburger"></i> Menu Management</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary" onclick="loadMenu()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                        <button class="btn btn-info" onclick="sortMenu()">
+                            <i class="fas fa-sort-amount-up"></i> Sort by Price
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Add New Menu Item</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="itemName">Item Name</label>
+                                <input type="text" id="itemName" placeholder="Enter item name">
+                            </div>
+                            <div class="form-group">
+                                <label for="itemPrice">Price (₹)</label>
+                                <input type="number" id="itemPrice" placeholder="0.00" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="categoryId">Category</label>
+                                <select id="categoryId">
+                                    <option value="">Select Category</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-primary" onclick="addItem()">
+                                    <i class="fas fa-plus"></i> Add Item
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Search Menu Item</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <input type="text" id="searchItemName" placeholder="Search by item name">
+                            <button class="btn btn-info" onclick="searchMenuItem()">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                        <div id="searchResult" class="search-result">
+                            <!-- Search results will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Menu Items</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="menuCards" class="menu-grid">
+                            <!-- Menu items will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Management Section -->
+            <section id="customerSection" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Customer Management</h2>
+                    <button class="btn btn-secondary" onclick="loadCustomers()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Add New Customer</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerName">Customer Name</label>
+                                <input type="text" id="customerName" placeholder="Enter customer name">
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhone">Phone Number</label>
+                                <input type="tel" id="customerPhone" placeholder="Enter phone number">
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-primary" onclick="addCustomer()">
+                                    <i class="fas fa-user-plus"></i> Add Customer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Search Customer</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <input type="number" id="searchCustomerId" placeholder="Enter Customer ID">
+                            <button class="btn btn-info" onclick="searchCustomer()">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                        <div id="customerSearchResult" class="search-result">
+                            <!-- Search results will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>All Customers</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="customersList" class="customers-grid">
+                            <!-- Customers will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Order Management Section -->
+            <section id="orderSection" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-shopping-cart"></i> Order Management</h2>
+                    <button class="btn btn-secondary" onclick="loadOrders()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Create New Order</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="orderCustomerId">Customer</label>
+                                <select id="orderCustomerId">
+                                    <option value="">Select Customer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-primary" onclick="createOrder()">
+                                    <i class="fas fa-plus"></i> Create Order
+                                </button>
+                            </div>
+                        </div>
+                        <div id="orderCreationResult" class="order-result">
+                            <!-- Order creation result will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Add Items to Order</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="orderItemId">Order</label>
+                                <select id="orderItemId">
+                                    <option value="">Select Order</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="menuItemName">Menu Item</label>
+                                <select id="menuItemName">
+                                    <option value="">Select Menu Item</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemQuantity">Quantity</label>
+                                <input type="number" id="itemQuantity" placeholder="1" min="1" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-primary" onclick="addItemToOrder()">
+                                    <i class="fas fa-plus"></i> Add Item
+                                </button>
+                            </div>
+                        </div>
+                        <div id="orderItemResult" class="order-result">
+                            <!-- Item addition result will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>View Order Items</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="viewOrderId">Order</label>
+                            <select id="viewOrderId">
+                                <option value="">Select Order</option>
+                            </select>
+                            <button class="btn btn-info" onclick="viewOrderItems()">
+                                <i class="fas fa-eye"></i> View Items
+                            </button>
+                        </div>
+                        <div id="orderItemsList" class="order-items">
+                            <!-- Order items will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>All Orders</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="ordersList" class="orders-grid">
+                            <!-- Orders will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Billing Section -->
+            <section id="billingSection" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-receipt"></i> Billing System</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Generate Bill</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="billingOrderId">Order</label>
+                            <select id="billingOrderId">
+                                <option value="">Select Order</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="generateBill()">
+                                <i class="fas fa-calculator"></i> Generate Bill
+                            </button>
+                        </div>
+                        
+                        <div id="receipt" class="receipt-container">
+                            <!-- Bill will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js?v=8"></script>
+</body>
+</html>
