@@ -16,8 +16,8 @@ COPY src ./src
 # Build the application
 RUN mvn clean package -DskipTests
 
-# Use OpenJDK 17 for running
-FROM openjdk:17-jdk-alpine
+# Use Eclipse Temurin OpenJDK 17 (more reliable)
+FROM eclipse-temurin:17-alpine
 
 # Install curl for health checks
 RUN apk add --no-cache curl
