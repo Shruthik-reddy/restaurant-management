@@ -1,5 +1,4 @@
-const BASE_URL = "https://restaurant-management-evgt.onrender.com";
-
+const BASE_URL = "/api";
 // Global variables
 let salesChart = null;
 let currentOrders = [];
