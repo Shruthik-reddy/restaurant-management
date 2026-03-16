@@ -17,10 +17,10 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Use OpenJDK 17 for running
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-alpine
 
-# Install curl for health checks and PostgreSQL client
-RUN apt-get update && apt-get install -y curl postgresql-client && rm -rf /var/lib/apt/lists/*
+# Install curl for health checks
+RUN apk add --no-cache curl
 
 # Set working directory
 WORKDIR /app

@@ -1,49 +1,53 @@
 -- Restaurant Management System - PostgreSQL Initialization Script
+-- Based on existing MySQL schema
 
 -- Create Categories Table
-CREATE TABLE IF NOT EXISTS categories (
+CREATE TABLE IF NOT EXISTS category (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE
+    name VARCHAR(100) NOT NULL
 );
 
 -- Create Menu Table
 CREATE TABLE IF NOT EXISTS menu (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(200) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
-    category_id INTEGER REFERENCES categories(id)
+    category_id INTEGER,
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
 -- Create Customers Table
-CREATE TABLE IF NOT EXISTS customers (
+CREATE TABLE IF NOT EXISTS customer (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(200) NOT NULL,
-    phone VARCHAR(20) NOT NULL UNIQUE
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(15) NOT NULL
 );
 
 -- Create Orders Table
 CREATE TABLE IF NOT EXISTS orders (
     id SERIAL PRIMARY KEY,
-    customer_id INTEGER REFERENCES customers(id),
-    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    customer_id INTEGER,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
 -- Create Order Items Table
 CREATE TABLE IF NOT EXISTS order_items (
     id SERIAL PRIMARY KEY,
-    order_id INTEGER REFERENCES orders(id),
-    menu_id INTEGER REFERENCES menu(id),
+    order_id INTEGER NOT NULL,
+    menu_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
-    price DECIMAL(10,2) NOT NULL
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (menu_id) REFERENCES menu(id)
 );
 
 -- Insert Sample Categories
-INSERT INTO categories (name) VALUES 
+INSERT INTO category (name) VALUES 
 ('Starters'),
 ('Main Course'),
 ('Desserts'),
 ('Beverages')
-ON CONFLICT (name) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- Insert Sample Menu Items
 INSERT INTO menu (name, price, category_id) VALUES 
@@ -56,11 +60,11 @@ INSERT INTO menu (name, price, category_id) VALUES
 ON CONFLICT DO NOTHING;
 
 -- Insert Sample Customers
-INSERT INTO customers (name, phone) VALUES 
+INSERT INTO customer (name, phone) VALUES 
 ('John Doe', '9876543210'),
 ('Jane Smith', '9876543211'),
 ('Bob Johnson', '9876543212')
-ON CONFLICT (phone) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- Create Indexes for Better Performance
 CREATE INDEX IF NOT EXISTS idx_menu_category ON menu(category_id);
