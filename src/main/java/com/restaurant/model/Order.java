@@ -11,7 +11,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, int customerId, LocalDateTime orderDate) {
+    public Order(Integer id, int customerId, LocalDateTime orderDate) {
         this.id = id;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -29,11 +29,11 @@ public class Order {
         return orderDate;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 

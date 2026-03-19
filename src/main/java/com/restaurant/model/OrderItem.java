@@ -2,15 +2,15 @@ package com.restaurant.model;
 
 public class OrderItem {
 
-    private int id;
-    private int orderId;
-    private int menuId;
-    private int quantity;
+    private Integer id;
+    private Integer orderId;
+    private Integer menuId;
+    private Integer quantity;
 
     public OrderItem() {
     }
 
-    public OrderItem(int id, int orderId, int menuId, int quantity) {
+    public OrderItem(Integer id, Integer orderId, Integer menuId, Integer quantity) {
         this.id = id;
         this.orderId = orderId;
         this.menuId = menuId;
@@ -33,19 +33,19 @@ public class OrderItem {
         return quantity;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    public void setMenuId(int menuId) {
+    public void setMenuId(Integer menuId) {
         this.menuId = menuId;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 }

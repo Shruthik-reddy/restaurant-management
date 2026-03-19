@@ -13,7 +13,7 @@ public class MenuItem {
     public MenuItem() {
     }
 
-    public MenuItem(int id, String name, double price, int categoryId) {
+    public MenuItem(Integer id, String name, double price, Integer categoryId) {
         this.id = id;
         this.name = name;
         this.price = price;
