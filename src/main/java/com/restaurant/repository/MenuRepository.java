@@ -41,7 +41,7 @@ public class MenuRepository {
 
     public MenuItem searchItem(String name) {
 
-        String sql = "SELECT * FROM menu WHERE name=?";
+        String sql = "SELECT * FROM menu WHERE LOWER(name) LIKE LOWER(?)";
 
         return jdbcTemplate.queryForObject(
                 sql,

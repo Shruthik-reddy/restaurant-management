@@ -797,7 +797,7 @@ async function createOrder() {
         const response = await fetch(`${BASE_URL}/order/create/${customerId}`, { method: 'POST' });
         if (response.ok) {
             const orderId = await response.json();
-            resultContainer.innerHTML = `<div class="order-result success"><i class="fas fa-check-circle"></i>Order created successfully! Order ID: ${orderId}</div>`;
+            resultContainer.innerHTML = `<div class="order-result success"><i class="fas fa-check-circle"></i>Order created successfully!</div>`;
             showToast('Order created successfully', 'success');
             customerSelect.value = '';
             loadOrders();
