@@ -39,7 +39,8 @@ function formatCurrency(amount) {
 }
 
 function formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString('en-IN', {
+    return new Date(dateString).toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
         year: 'numeric',
         month: 'short',
         day: 'numeric',
